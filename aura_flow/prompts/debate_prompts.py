@@ -1,6 +1,6 @@
 # debate_app/prompts.py
 
-# --- Prompts for Interactive Debate Chatbot ---
+# Prompts for Interactive Debate Chatbot 
 
 DEBATE_PROMPT_TEMPLATE = """
 You are a highly skilled and competitive AI debate opponent. Your personality is sharp, analytical, and focused.
@@ -51,7 +51,7 @@ Debate Transcript:
 """
 
 
-# --- Prompts for One-Shot Debate Analysis ---
+# Prompts for One-Shot Debate Analysis 
 
 WINNER_JUDGE_PROMPT_TEMPLATE = """
 You are an expert and impartial debate judge. Analyze the following debate transcript to determine a winner.
