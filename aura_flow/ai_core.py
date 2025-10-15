@@ -31,7 +31,6 @@ deepgram = DeepgramClient(DG_API_KEY)
 
 
 # Initialize OpenAI LLM
-# A single powerful model is used for all tasks
 try:
     llm = ChatOpenAI(model="provider-3/gpt-4o-mini", temperature=0.7)
     # A more deterministic model for JSON outputs
@@ -40,7 +39,7 @@ except Exception as e:
     print(f"Error initializing OpenAI model: {e}")
     exit()
 
-# --- Chain for Interactive Debate ---
+# Chain for Interactive Debate
 debate_prompt = ChatPromptTemplate.from_template(DEBATE_PROMPT_TEMPLATE)
 debate_chain = (
     {"topic": RunnablePassthrough(), "chat_history": RunnablePassthrough(), "user_input": RunnablePassthrough()}
@@ -49,7 +48,7 @@ debate_chain = (
     | StrOutputParser()
 )
 
-# --- Chain for Real-time Language Feedback ---
+# Chain for Real-time Language Feedback
 feedback_prompt = ChatPromptTemplate.from_template(REALTIME_FEEDBACK_PROMPT_TEMPLATE)
 language_feedback_chain = (
     {"user_input": RunnablePassthrough()}
@@ -58,7 +57,7 @@ language_feedback_chain = (
     | StrOutputParser()
 )
 
-# --- Chain for Final User-Only Judgment ---
+# Chain for Final User-Only Judgment 
 final_judgement_prompt = ChatPromptTemplate.from_template(FINAL_JUDGEMENT_PROMPT_TEMPLATE)
 final_judgement_chain = (
     {"chat_history": RunnablePassthrough()}
@@ -68,12 +67,12 @@ final_judgement_chain = (
 )
 
 
-# --- Chain for Determining a Winner (from script 2) ---
+# Chain for Determining a Winner  
 winner_judge_prompt = ChatPromptTemplate.from_template(WINNER_JUDGE_PROMPT_TEMPLATE)
 winner_judge_chain = winner_judge_prompt | json_llm | StrOutputParser()
 
 
-# --- Chain for Detailed Player Coaching (from script 2) ---
+# Chain for Detailed Player Coaching 
 coach_prompt = ChatPromptTemplate.from_template(COACH_PROMPT_TEMPLATE)
 coach_chain = coach_prompt | llm | StrOutputParser()
 
@@ -92,11 +91,8 @@ roast_opponent_chain = (
     | StrOutputParser()
 )
 
-# ---
 
-## 2. Real-time Comedy Feedback Chain
-# This chain takes only the user's most recent input to provide instant feedback on their joke.
-
+# 2. Real-time Comedy Feedback Chain
 feedback_prompt = ChatPromptTemplate.from_template(REALTIME_COMEDY_FEEDBACK_PROMPT_TEMPLATE)
 
 realtime_comedy_feedback_chain = (
@@ -106,11 +102,8 @@ realtime_comedy_feedback_chain = (
     | StrOutputParser()
 )
 
-# ---
 
-## 3. Final Performance Review Chain
-# This chain takes the entire chat history to generate a final, structured review of the user's performance.
-
+# 3. Final Performance Review Chain
 review_prompt = ChatPromptTemplate.from_template(FINAL_PERFORMANCE_REVIEW_PROMPT_TEMPLATE)
 
 final_performance_review_chain = (
@@ -121,9 +114,7 @@ final_performance_review_chain = (
 )
 
 
-## 1. Comedy Coach Chain
-# This chain takes a roaster's text and provides structured feedback.
-
+# 1. Comedy Coach Chain
 coach_prompt = ChatPromptTemplate.from_template(COACH_PROMPT_TEMPLATE)
 
 coach_chain = (
@@ -133,11 +124,9 @@ coach_chain = (
     | StrOutputParser()
 )
 
-# ---
 
-## 2. Roast Judge Chain
-# This chain takes a full transcript and determines a winner, outputting in JSON format.
 
+# 2. Roast Judge Chain
 judge_prompt = ChatPromptTemplate.from_template(ROAST_JUDGE_PROMPT_TEMPLATE)
 
 roast_judge_chain = (
